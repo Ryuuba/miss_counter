@@ -17,6 +17,8 @@ int main(int argc, char const *argv[])
           std::ifstream, std::chrono::high_resolution_clock, 
           std::chrono::nanoseconds, std::array;
     char const* path = argv[1];
+    uint8_t tc = atoi(argv[2]);
+    uint8_t tM = atoi(argv[3]);
     cout << "Starting to reading file " << path << endl;
     ifstream file(path, fstream::in);
     array<uint64_t, 3> counter {0, 0, 0};
@@ -28,9 +30,9 @@ int main(int argc, char const *argv[])
             file.get();
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<nanoseconds>(stop - start);
-            if (duration.count() < 25)
+            if (duration.count() < tc)
                 counter[CACHE]++;
-            else if(duration.count() < 10000)
+            else if(duration.count() < tM)
                 counter[MAINMEM]++;
             else
                 counter[VIRTUALMEM]++;
